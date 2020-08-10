@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B package --file pom.xml; mvn install
+      run: mvn -B package --file pom.xml; mvn install:install-file -DgroupId=code-cy -DartifactId=spring-api-service -Dversion=1.0.0 -Dfile=spring-api-service -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=.  -DcreateChecksum=true
