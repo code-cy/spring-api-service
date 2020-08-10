@@ -1,6 +1,6 @@
 .vscode/
-target/
-!.jar
+target/*
+!target/*.jar
 .classpath
 .factorypath
 .project
