@@ -1,4 +1,4 @@
-package codecy.api_service;
+package codecy.spring_api_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>codecy</groupId>
-    <artifactId>spring-api-service</artifactId>
+    <artifactId>spring_api_service</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 

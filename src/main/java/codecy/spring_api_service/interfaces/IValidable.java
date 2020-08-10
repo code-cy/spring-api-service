@@ -1,4 +1,4 @@
-package codecy.api_service.interfaces;
+package codecy.spring_api_service.interfaces;
 
 import java.util.Map;
 

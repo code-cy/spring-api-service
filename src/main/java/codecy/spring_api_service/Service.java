@@ -1,4 +1,4 @@
-package codecy.api_service;
+package codecy.spring_api_service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import codecy.api_service.interfaces.IRepository;
-import codecy.api_service.interfaces.IValidable;
+import codecy.spring_api_service.interfaces.IRepository;
+import codecy.spring_api_service.interfaces.IValidable;
 
 @Repository
 public class Service<T extends Service<T, ID>, ID extends Serializable> {

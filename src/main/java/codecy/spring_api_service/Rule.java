@@ -1,4 +1,4 @@
-package codecy.api_service;
+package codecy.spring_api_service;
 
 public class Rule{
     public static final String REQUIRED = "required";
