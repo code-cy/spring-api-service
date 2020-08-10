@@ -1,4 +1,4 @@
-package codecy.spring_api_service;
+package code.cy.spring.api.service;
 
 import java.util.Map;
 

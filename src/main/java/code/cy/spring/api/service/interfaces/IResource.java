@@ -1,9 +1,9 @@
-package codecy.spring_api_service.interfaces;
+package code.cy.spring.api.service.interfaces;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import codecy.spring_api_service.Service;
+import code.cy.spring.api.service.Service;
 
 
 public interface IResource<T extends Service<T, ID>, ID extends Serializable>{

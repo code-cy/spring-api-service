@@ -1,4 +1,4 @@
-package codecy.spring_api_service.interfaces;
+package code.cy.spring.api.service.interfaces;
 
 import java.io.Serializable;
 import java.util.Optional;

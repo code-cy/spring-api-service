@@ -1,4 +1,4 @@
-package codecy.spring_api_service;
+package code.cy.spring.api.service;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import codecy.spring_api_service.interfaces.IRepository;
+import code.cy.spring.api.service.interfaces.IRepository;
 
 @Repository
 public class Validator<T extends Service<T, ID>, ID extends Serializable> {

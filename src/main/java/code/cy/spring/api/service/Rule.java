@@ -1,4 +1,4 @@
-package codecy.spring_api_service;
+package code.cy.spring.api.service;
 
 public class Rule{
     public static final String REQUIRED = "required";
