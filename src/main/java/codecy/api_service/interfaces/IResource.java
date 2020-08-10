@@ -1,9 +1,9 @@
-package code.cy.api_service.interfaces;
+package codecy.api_service.interfaces;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import code.cy.api_service.Service;
+import codecy.api_service.Service;
 
 
 public interface IResource<T extends Service<T, ID>, ID extends Serializable>{

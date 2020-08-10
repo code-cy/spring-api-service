@@ -1,4 +1,4 @@
-package code.cy.api_service.interfaces;
+package codecy.api_service.interfaces;
 
 import java.util.Map;
 

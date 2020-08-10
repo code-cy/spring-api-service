@@ -1,4 +1,4 @@
-package code.cy.api_service;
+package codecy.api_service;
 
 public class Rule{
     public static final String REQUIRED = "required";

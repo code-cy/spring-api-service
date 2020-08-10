@@ -1,4 +1,4 @@
-package code.cy.api_service;
+package codecy.api_service;
 
 import java.util.HashMap;
 import java.util.Map;
