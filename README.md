@@ -20,7 +20,7 @@
     ```
 - In your main class: 
     ```java
-    @SpringBootApplication(scanBasePackages={"code.cy.spring.api.service"})
+    @SpringBootApplication
     class MainClass {...}
     ```
 - In your repositories:
@@ -79,6 +79,7 @@
     ```java
     @RestController
     @RequestMapping('/services/')
+    @SpringBootApplication(scanBasePackages={"code.cy.spring.api.service"})
     public class ServiceController{
         @Autowired
         private Model modelService;
