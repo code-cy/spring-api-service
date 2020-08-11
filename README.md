@@ -82,6 +82,8 @@
     ```
 - in your controller:
     ```java
+    import code.cy.spring.api.service.Response;
+
     @RestController
     @RequestMapping('/services/')
     @SpringBootApplication(scanBasePackages={"code.cy"})
@@ -91,11 +93,19 @@
 
         @GetMapping
         public ResponseEntity<?> index(){
+            modelService.findInList((Model intance)->{
+                return intance.prop == 10;
+            })
             return modelService.list();
         }
 
         @PostMapping
         public ResponseEntity<?> store(@RequestBody Model model){
+            modelService.doAfterStore((Model intance)->{
+                intance.doSomeMethod();
+                //can return null
+                return Response.status(201).body(...);
+            })
             return modelService.store(model);
         }        
 
@@ -105,7 +115,12 @@
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Model model){                
+        public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Model model){
+            modelService.doAfterUpdate((Model intance)->{
+                intance.doOtherMethod();
+                //ResponseEntity<?>
+                return null;
+            })                
             return modelService.update(id, model);
         }
 
@@ -121,6 +136,12 @@
     }
     ```
 ## Changes
+- ### `1.0.4`
+- `ApiService`:
+    - `void findInList( (Model intance)->boolean )`: find intances in `list()` method.
+    - `void doAfterStore( (Model intance)->ResponseEntity<?>|null )`: do somthing after store. if return a response it will be send.
+    - `void doAfterUpdate( (Model intance)->ResponseEntity<?>|null )`: do somthing after update. if return a response it will be send.
+
 - ### `1.0.3`
 - **General Package Path:** `code.cy.spring.api.service` to `code.cy`.
 -  **imports:** 

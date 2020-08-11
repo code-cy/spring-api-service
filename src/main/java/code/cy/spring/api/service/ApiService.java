@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import code.cy.FastMap;
+import code.cy.spring.api.service.inherts.AfterInstance;
+import code.cy.spring.api.service.inherts.FindInstance;
 import code.cy.spring.api.service.interfaces.IRepository;
 import code.cy.spring.api.service.interfaces.IValidable;
 import code.cy.spring.api.validation.Validator;
@@ -26,6 +28,24 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
     @Autowired
     private Validator<T, ID> validator;
 
+    private AfterInstance<T> afterStore;
+    private AfterInstance<T> afterUpdate;
+    private FindInstance<T> findInstance;
+
+    public void doAfterStore(AfterInstance<T> after) {
+        afterStore = after;
+    }
+
+    public void doAfterUpdate(AfterInstance<T> after){
+        afterUpdate = after;
+    }
+
+    public void findInList(FindInstance<T> find){
+        findInstance = find;
+    }
+
+
+
     public IRepository<T, ID> getManager() {
         return repository;
     }
@@ -40,6 +60,11 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
                 return invalid;
         }
         service.save(instance);
+        if(afterStore!=null){
+            ResponseEntity<?> after = afterStore.doSomething(instance);
+            if(after != null)
+                return after;
+        }
         Map<String, Object> resource = _resource(instance);
         if (resource != null)
             return Response.status(201).body(resource);
@@ -61,6 +86,12 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         }
         instance.set(data);
         service.save(instance);
+        if(afterUpdate!=null){
+            ResponseEntity<?> after = afterUpdate.doSomething(instance);
+            if(after != null)
+                return after;
+        }
+            
         Map<String, Object> resource = _resource(instance);
         if (resource != null)
             return Response.status(200).body(resource);
@@ -72,8 +103,11 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         IRepository<T, ID> service = getManager();
         Iterable<T> all_iter = service.findAll();
         ArrayList<Object> result = new ArrayList<Object>();
-        for (T instace : all_iter) {
-            result.add(instace.resource(instace));
+        for (T instance : all_iter) {
+            if(findInstance!=null){
+                if(findInstance.find(instance))
+                    result.add(instance.resource(instance));
+            }else result.add(instance.resource(instance));
         }
         return Response.status(200).body(FastMap.get(plural(), result));
     }
