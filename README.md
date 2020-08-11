@@ -16,7 +16,7 @@
         <dependency>
             <groupId>code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.4</version>
         </dependency>
         ...
     </dependecies
