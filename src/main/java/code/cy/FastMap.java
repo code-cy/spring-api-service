@@ -1,9 +1,9 @@
-package code.cy.spring.api.service;
+package code.cy;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FastMap {
+public class FastMap{
     public FastMap(){
         this.map = new HashMap<String, Object>();        
     }
@@ -20,15 +20,24 @@ public class FastMap {
     }
     
     public FastMap put(String key, Object value){
-        map.put(key, value);
+        map.put(key,value);
         return this;
     }
 
     public Map<String, Object> get(){
         return map;
+    }    
+
+    public static FastMap makeRule(String prop, String rule){
+        return create(prop,new String[]{rule});
+    }    
+
+    public FastMap addRule(String prop,String rule){
+        return put(prop,new String[]{rule});
     }
 
     public static Map<String, Object> get(String key, Object value){
         return create(key, value).get();
     }
+    
 }

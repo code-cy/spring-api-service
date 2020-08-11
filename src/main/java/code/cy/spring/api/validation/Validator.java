@@ -1,4 +1,4 @@
-package code.cy.spring.api.service;
+package code.cy.spring.api.validation;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -6,14 +6,17 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import code.cy.spring.api.service.Response;
+import code.cy.spring.api.service.ApiService;
 import code.cy.spring.api.service.interfaces.IRepository;
 
 @Repository
-public class Validator<T extends Service<T, ID>, ID extends Serializable> {
+public class Validator<T extends ApiService<T, ID>, ID extends Serializable> {
 
     @Autowired
     private IRepository<T, ID> repository;
@@ -21,8 +24,8 @@ public class Validator<T extends Service<T, ID>, ID extends Serializable> {
     public ResponseEntity<Map<String, Object>> validate(T data, Map<String, Object> rules, ID id) throws Exception {
         Map<String, Object> invalid = new HashMap<String, Object>();        
         for (String rule_key : rules.keySet()) {
-            Object[] rule_split = ((Object[]) rules.get(rule_key));            
-            if(rule_key != null)           
+            Object rolelist = rules.get(rule_key);
+            Object[] rule_split = (Object[]) rolelist;                                  
             for (Object rule_split_key : rule_split) {                
                 _uniqueValidation(data, invalid, rule_key, (String)rule_split_key, id);
             }

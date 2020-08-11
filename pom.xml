@@ -4,7 +4,7 @@
 
     <groupId>code-cy</groupId>
     <artifactId>spring-api-service</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
 
@@ -43,7 +43,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>code.cy.spring.api.service.App</mainClass>
+                            <mainClass>code.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import code.cy.FastMap;
 import code.cy.spring.api.service.interfaces.IRepository;
 import code.cy.spring.api.service.interfaces.IValidable;
+import code.cy.spring.api.validation.Validator;
 
 @Repository
-public class Service<T extends Service<T, ID>, ID extends Serializable> {
+public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
     public ID getId(){
         return null;
     }

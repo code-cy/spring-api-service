@@ -1,5 +1,8 @@
 # SPRING-API-SERVICE
 
+# Requires
+- `java 11`
+
 ## Install
  - `git clonde ...`
  - `mvn install`
@@ -34,11 +37,13 @@
 - In your model:
     ```java
     ...
-    import code.cy.spring.api.service.Service;
+    import code.cy.spring.api.service.ApiService;
     import code.cy.spring.api.service.interfaces.*;
+    import code.cy.spring.api.validation.Rule;
+    import code.cy.FastMap;       
 
     @Repository
-    class Model extends Service<Model, ID>{
+    class Model extends ApiService<Model, ID>{
         public ID id;
 
         @Override
@@ -60,12 +65,12 @@
     ...
     @Override
     public Map<String, Object> storeRules(){
-        return FastMap.get("prop", FastListStr.create(Rule.UNIQUE).add(Rule.REQUIERED).rules());
+        return FastMap.makeRole("prop",Rule.UNIQUE).addRole("prop2",Rule.REQUIERED).put("prop3", new String[]{Rule.NO_EXISTS, Rule.OPTIONAL}).get();
     }
 
     @Override
     public Map<String, Object> updateRules(Model){
-        return FastMap.get("prop", FastListStr.create(Rule.UNIQUE).rules());
+        return FastMap.get("prop", new String[]{Rule.UNIQUE});
     }
 
     @Override
@@ -79,7 +84,7 @@
     ```java
     @RestController
     @RequestMapping('/services/')
-    @SpringBootApplication(scanBasePackages={"code.cy.spring.api.service"})
+    @SpringBootApplication(scanBasePackages={"code.cy"})
     public class ServiceController{
         @Autowired
         private Model modelService;
@@ -115,4 +120,18 @@
         }
     }
     ```
-
+## Changes
+- ### `1.0.3`
+- **General Package Path:** `code.cy.spring.api.service` to `code.cy`.
+-  **imports:** 
+    ```java
+    import code.cy.spring.api.service.ApiService;
+    import code.cy.spring.api.service.interfaces.*;
+    import code.cy.spring.api.validation.Rule;
+    import code.cy.spring.api.validation.Validator;   
+    import code.cy.FastMap;     
+    ```
+- `FastListStr`: *decapritated* 
+- `FastMap`:
+    - `public static FastMap makeRole(String prop, String role)`
+    - `public FastMap addRole(String prop, String role)`
