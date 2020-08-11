@@ -39,11 +39,20 @@
 
     @Repository
     class Model extends Service<Model, ID>{
-        public ID id,
+        public ID id;
+
         @Override
         public ID getId() {
             return id;
         }
+
+        @Override
+        public void set(Model data){
+            prop1 = data.prop1;
+            prop2 = data.prop2;
+            ...
+        }
+
     }
     ```
     You can implements: `IValidable`, `IResource<Model, ID>` with clases: `FastMap`, `FastListStr`
