@@ -60,7 +60,7 @@
 
     }
     ```
-    You can implements: `IValidable`, `IResource<Model, ID>` with clases: `FastMap`, `FastListStr`
+    You can implements: `IValidable`, `IResource<Model, ID>` with clases: `FastMap`: for creating fast `Map<String, Object>`
     ```java
     ...
     @Override
