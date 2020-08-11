@@ -65,7 +65,7 @@
     ...
     @Override
     public Map<String, Object> storeRules(){
-        return FastMap.makeRole("prop",Rule.UNIQUE).addRole("prop2",Rule.REQUIERED).put("prop3", new String[]{Rule.NO_EXISTS, Rule.OPTIONAL}).get();
+        return FastMap.makeRule("prop",Rule.UNIQUE).addRule("prop2",Rule.REQUIERED).put("prop3", new String[]{Rule.NO_EXISTS, Rule.OPTIONAL}).get();
     }
 
     @Override
@@ -133,5 +133,5 @@
     ```
 - `FastListStr`: *decapritated* 
 - `FastMap`:
-    - `public static FastMap makeRole(String prop, String role)`
-    - `public FastMap addRole(String prop, String role)`
+    - `public static FastMap makeRule(String prop, String role)`
+    - `public FastMap addRule(String prop, String role)`
