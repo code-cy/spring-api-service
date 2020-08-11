@@ -92,12 +92,7 @@
         @PostMapping
         public ResponseEntity<?> store(@RequestBody Model model){
             return modelService.store(model);
-        }
-
-        @GetMapping("/{id}")
-        public ResponseEntity<?> store(@RequestBody Model model){
-            return modelService.store(model);
-        }
+        }        
 
          @GetMapping("/{id}")
         public ResponseEntity<?> show(@PathVariable("id") Long id){        
