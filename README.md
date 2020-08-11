@@ -154,5 +154,5 @@
     ```
 - `FastListStr`: *decapritated* 
 - `FastMap`:
-    - `public static FastMap makeRule(String prop, String role)`
-    - `public FastMap addRule(String prop, String role)`
+    - `public static FastMap makeRule(String prop, String rule)`
+    - `public FastMap addRule(String prop, String rule)`
