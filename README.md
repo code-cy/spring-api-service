@@ -139,8 +139,8 @@
 - ### `1.0.4`
 - `ApiService`:
     - `void findInList( (Model intance)->boolean )`: find intances in `list()` method.
-    - `void doAfterStore( (Model intance)->ResponseEntity<?>|null )`: do somthing after store. if return a response it will be send.
-    - `void doAfterUpdate( (Model intance)->ResponseEntity<?>|null )`: do somthing after update. if return a response it will be send.
+    - `void doAfterStore( (Model intance)->ResponseEntity<?>|null )`: do something after store. if return a response it will be send.
+    - `void doAfterUpdate( (Model intance)->ResponseEntity<?>|null )`: do something after update. if return a response it will be send.
 
 - ### `1.0.3`
 - **General Package Path:** `code.cy.spring.api.service` to `code.cy`.
