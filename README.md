@@ -100,7 +100,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
 
     import code.cy.spring.api.service.interfaces.IRepository;
 
-    //This is important using the CrudRepository with IRepository!
+    //Is important using the CrudRepository or simililar with IRepository!
     public interface MyModelRepository extends CrudRepository<Model, ID>, IRepository<Model, ID>  {...}  
     ```
 - In your model:
