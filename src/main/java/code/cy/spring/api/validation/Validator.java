@@ -12,11 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import code.cy.spring.api.service.Response;
-import code.cy.spring.api.service.ApiService;
+import code.cy.spring.api.service.interfaces.IModel;
 import code.cy.spring.api.service.interfaces.IRepository;
 
 @Repository
-public class Validator<T extends ApiService<T, ID>, ID extends Serializable> {
+public class Validator<T extends IModel<T, ID>, ID extends Serializable> {
 
     @Autowired
     private IRepository<T, ID> repository;

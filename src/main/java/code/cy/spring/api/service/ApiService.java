@@ -12,21 +12,22 @@ import org.springframework.stereotype.Repository;
 import code.cy.FastMap;
 import code.cy.spring.api.service.inherts.AfterInstance;
 import code.cy.spring.api.service.inherts.FindInstance;
+import code.cy.spring.api.service.interfaces.IModel;
 import code.cy.spring.api.service.interfaces.IRepository;
 import code.cy.spring.api.service.interfaces.IValidable;
 import code.cy.spring.api.validation.Validator;
 
 @Repository
-public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
-    public ID getId(){
-        return null;
-    }
+public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {    
 
     @Autowired
     private IRepository<T, ID> repository;
 
     @Autowired
     private Validator<T, ID> validator;
+
+    @Autowired
+    private IModel<T, ID> model;
 
     private AfterInstance<T> afterStore;
     private AfterInstance<T> afterUpdate;
@@ -68,7 +69,7 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         Map<String, Object> resource = _resource(instance);
         if (resource != null)
             return Response.status(201).body(resource);
-        return Response.status(201).body(FastMap.get(singular(), instance));
+        return Response.status(201).body(FastMap.get(model.singular(), instance));
     }
 
     public ResponseEntity<?> update(ID id, T data) {
@@ -95,7 +96,7 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         Map<String, Object> resource = _resource(instance);
         if (resource != null)
             return Response.status(200).body(resource);
-        return Response.status(200).body(FastMap.get(singular(), instance));
+        return Response.status(200).body(FastMap.get(model.singular(), instance));
 
     }
 
@@ -109,7 +110,7 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
                     result.add(instance.resource(instance));
             }else result.add(instance.resource(instance));
         }
-        return Response.status(200).body(FastMap.get(plural(), result));
+        return Response.status(200).body(FastMap.get(model.plural(), result));
     }
 
     public ResponseEntity<?> show(ID id) {
@@ -121,7 +122,7 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         Map<String, Object> resource = _resource(instance);
         if (resource != null)
             return Response.status(200).body(resource);
-        return Response.status(200).body(FastMap.get(singular(), instance));
+        return Response.status(200).body(FastMap.get(model.singular(), instance));
     }
 
     public ResponseEntity<?> destory(ID id) {
@@ -130,13 +131,13 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
         if (!found.isPresent())
             return _resourceNotFoundResponse();
         service.deleteById(id);
-        return Response.status(200).body(FastMap.get(singular(), null));
+        return Response.status(200).body(FastMap.get(model.singular(), null));
     }
 
     public ResponseEntity<?> destoryAll() {
         IRepository<T, ID> service = getManager();
         service.deleteAll();
-        return Response.status(200).body(FastMap.get(plural(), service.findAll()));
+        return Response.status(200).body(FastMap.get(model.plural(), service.findAll()));
     }
 
     protected ResponseEntity<?> _resourceNotFoundResponse() {
@@ -154,25 +155,9 @@ public class ApiService<T extends ApiService<T, ID>, ID extends Serializable> {
     private Map<String, Object> _resource(T instance) {
         Map<String, Object> resource = instance.resource(instance);
         if (resource != null) {
-            return FastMap.get(singular(), resource);
+            return FastMap.get(model.singular(), resource);
         }
         return null;
-    }
-
-    public void set(T data) {
-
-    }
-
-    public Map<String, Object> resource(T resource) {
-        return null;
-    }
-
-    public String singular() {
-        return "";
-    }
-
-    public String plural() {
-        return "";
-    }
+    }   
 
 }
