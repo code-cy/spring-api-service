@@ -38,7 +38,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
         private ApiService<Model, ID> modelService;
 
         @GetMapping
-        //Return a list of Model using CrudRepository.findAll
+        //Return a list of Model using IRepository.findAll
         public ResponseEntity<?> index(){
             modelService.findInList((Model modelStored)->{
                 return modelStored.prop == 10;
@@ -47,9 +47,9 @@ If you are search to do a **api service fast with spring**, this is your repo.
         }
 
         @PostMapping
-        //Create a Model in width CrudRepository.save and use Model.storeRules to validation if Model implements IValidable.
+        //Create a Model in width IRepository.save and use Model.storeRules to validation if Model implements IValidable.
         public ResponseEntity<?> store(@RequestBody Model model){
-            //Do something after CrudRepository.save and before to send something.
+            //Do something after IRepository.save and before to send something.
             modelService.doAfterStore((Model modelStored)->{
                 modelStored.doSomeMethod();
                 //can return null
@@ -59,13 +59,13 @@ If you are search to do a **api service fast with spring**, this is your repo.
         }        
 
         @GetMapping("/{id}")
-        //Show a Model by id in width CrudRepository.findById
+        //Show a Model by id in width IRepository.findById
         public ResponseEntity<?> show(@PathVariable("id") Long id){        
             return modelService.show(id);
         }
 
         @PutMapping("/{id}")
-        //Update a Model by id and model instance width CrudRepository.save and use Model.updateRules to validation if Model implements IValidable.
+        //Update a Model by id and model instance width IRepository.save and use Model.updateRules to validation if Model implements IValidable.
         public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Model model){
             //Do something after CrudRepository.save and before to send something.
             modelService.doAfterUpdate((Model modelStored)->{
@@ -77,13 +77,13 @@ If you are search to do a **api service fast with spring**, this is your repo.
         }
 
         @DeleteMapping
-        //Clear a Model Table in width CrudRepository.deleteAll
+        //Clear a Model Table in width IRepository.deleteAll
         public ResponseEntity<?> clear(){
             return modelService.destoryAll();
         }
 
         @DeleteMapping("/{id}")
-        //Delete a Model by id in width CrudRepository.deleteAll
+        //Delete a Model by id in width IRepository.deleteAll
         public ResponseEntity<?> destory(@PathVariable("id") Long id){
             return modelService.destory(id);
         }
