@@ -1,5 +1,7 @@
 package code.cy.spring.api.router;
 
+import code.cy.spring.api.router.interfaces.IMiddleware;
+
 public class Path {
 
     public static class HttpMethod {
@@ -12,6 +14,7 @@ public class Path {
 
     public String path;
     public String method;
+    public IMiddleware[] middlewares;
 
     public Path(String path, String method) {
         this.path = path;
@@ -32,5 +35,10 @@ public class Path {
 
     public static Path delete(String path) {
         return new Path(path, HttpMethod.DELETE);
+    }
+
+    public Path middlewares(IMiddleware[] middlewares) {
+        this.middlewares = middlewares;
+        return this;
     }
 }

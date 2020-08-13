@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import code.cy.FastMap;
+import code.cy.spring.api.router.interfaces.IMiddleware;
 import code.cy.spring.api.router.interfaces.IRouter;
 import code.cy.spring.api.service.Response;
 
@@ -47,7 +48,17 @@ public class Router<T> {
                             break;
                         }
                     }
-                }                
+                }
+                if(found){
+                    IMiddleware[] middlewares = _path.middlewares;
+                    for(IMiddleware middleware : middlewares){
+                        ResponseEntity<?> response = middleware.handler(new Request(pathParams, request, params, body));
+                        if(response != null){
+                            return response;
+                        }
+                    }
+                }
+                
                 if(found && path_mapp_split.length == path_split.length){
                     if(routes.get(_path) instanceof Handler){
                         Handler handler = (Handler)routes.get(_path);
@@ -56,7 +67,14 @@ public class Router<T> {
                 }
                 if(found && path_mapp_split.length < path_split.length){
                     if(routes.get(_path) instanceof Group){
-                       //todo                   
+                        Group handler = (Group)routes.get(_path);
+                        Map<Path, Handler> g_routes = handler.routes();
+                        String g_path = "";
+                        for(int i = path_mapp_split.length-1; i<path_split.length;i++){
+                            g_path += "/"+path_split[i];
+                        }
+                        //todo
+
                     }
                 }
 
