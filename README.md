@@ -157,9 +157,10 @@ If you are search to do a **api service fast with spring**, this is your repo.
     ...       
     ```
 - ### Middlewares
-    The middlewares are classes to do somthing before the client pettion go to important things. To create `Middleware` class we need `IMiddleware`
+    The middlewares are classes to do something before the client petittion go to important things but can be integarte in many of routes. To create `Middleware` class we need `IMiddleware`.
+    An example of `IMiddleware` is when we have a `service1/{model1_id}/service2/{model2_id}/...` or when we wan to `authenticate`.
 
-    - In your middlewares: example:
+    - In your middlewares:
     ```java
     import code.cy.spring.api.service.interfaces.IMiddleware;
     
@@ -211,7 +212,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
         ...
     ```
 - ### HashId Connector
-   Using this feacture to hide the resources ids to clinet.
+   Using this feacture is to hide the resources ids to clinet.
    We can use `HashId<Model, ID>` to `encode` and `decode` the ids.
 
    - In your model:
