@@ -2,7 +2,7 @@
 If you are search to do a **api service fast with spring**, this is your repo.
 
 # Tags
-[Middleware](#middleware) [HashId Connector](#hashid-connector)
+[Middleware](#middlewares) [HashId Connector](#hashid-connector)
 
 # Requires
 - `java 11`
