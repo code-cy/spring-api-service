@@ -10,6 +10,8 @@ public interface IModel<T, ID extends Serializable> {
 
     public ID getId();
 
+    public String getIdName(); 
+
     public Map<String, Object> resource(T resource);
 
     public void set(T data);

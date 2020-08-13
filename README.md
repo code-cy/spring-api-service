@@ -119,6 +119,11 @@ If you are search to do a **api service fast with spring**, this is your repo.
         }
 
         @Override
+        public String getIdName() {
+            return "id";
+        }
+
+        @Override
         //Set the Model in ApiService.update.
         public void set(Model data){
             prop1 = data.prop1;
@@ -148,13 +153,100 @@ If you are search to do a **api service fast with spring**, this is your repo.
     @Override
     public Map<String, Object> updateRules(Model){
         return FastMap.get("prop", new String[]{Rule.UNIQUE});
-    }
-
-    
-    ...   
+    }    
+    ...       
     ```
+- ### Middlewares
+    The middlewares are classes to do somthing before the client pettion go to important things. To create `Middleware` class we need `IMiddleware`
+
+    - In your middlewares: example:
+    ```java
+    import code.cy.spring.api.service.interfaces.IMiddleware;
+    
+    @Repository
+    class MyMiddleware implements IMiddleware{
+        @Autowired
+        private ApiService<Model, ID> service;
+        private Model model;
+
+        //custom information from controller
+        public void request(String strId){
+            model = service.getByHashId(strId);
+        }
+
+        public Model getModel(){
+            return model;
+        }
+
+        @Override
+        public ResponseEntity<?> handler(){
+            if(model==null){
+                return Response.status(404).body(FastMap.get("error","resource not found"));
+            }
+            //send null to continue in the controller method.
+            return null;
+        }
+
+    }
+    ```
+    - Usage in your controller or service:
+    ```java
+        ...
+        @Autowired        
+        private ApiService<Model2, ID> model2service;
+        @Autowired
+        private  MyMiddleware mymiddleware;
+
+        @GetMapping
+        public ResponseEntity<?> modelItems(@PathVariable("model_id") String id){
+            
+            mymiddleware.request(id);
+
+            return model2service.handler(new IMiddleware[]{mymiddleware, ... },()->{
+
+                return Response.status(200).body(mymiddleware.getModel().getItems());
+
+            });
+        }
+        ...
+    ```
+- ### HashId Connector
+   Using this feacture to hide the resources ids to clinet.
+   We can use `HashId<Model, ID>` to `encode` and `decode` the ids.
+
+   - In your model:
+    ```java
+    ...    
+    import code.cy.spring.api.service.interfaces.*;
+    ...    
+    class Model implements IModel<Model, ID>, IHashId<Model, ID>{
+        ...        
+        @Override public String encode(ID id){
+            //encode connector
+        }
+
+        @Override public ID decode(String strId){
+            //decode connector
+        }
+        ...
+    }
+    ```
+    - Usage: 
+        - `Model ApiService<Model, ID> service.getByHashId(String strId)` to get a Model instance.
+        - `Map<String, Object> ApiService<Model, ID> service.resource(Model instance)` to send a hashed id to client.
+
+
+
+
 
 ## Changes
+- ### `1.0.7`
+    - Interface: `IMiddleware`
+    - Method: `ResponseEntity<?> ApiService.handler(IMiddlewares[] middlewares, ()->ResponseEntity<?>)`
+    - Interface: `IHashId<Model, ID>`
+    - Method: `Model ApiService<Model, ID> service.getByHashId(String strId)`
+    - Method: `Map<String, Object> ApiService<Model, ID> service.resource(Model instance)`
+
 - ### `1.0.5`
 - Interface: `IModel<Model, ID>`
 - Service: `ApiService<Model extends IModel<Model, ID>, ID>`
