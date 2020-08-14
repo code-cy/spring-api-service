@@ -348,6 +348,7 @@ Is a custom implementation using spring as boot. This implementation is good to 
                 user = userService.getRepository().findById(Long.parseLong(strId));
                 if (user.isPresent()){
                     request.internal.put(user_param, user.get());
+                    // return null to go to route controller.
                     return null;
                 }                
             }
