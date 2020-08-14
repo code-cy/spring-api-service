@@ -1,13 +1,11 @@
 package code.cy.spring.api.router.interfaces;
 
-import java.util.Map;
-
-import code.cy.spring.api.router.Handler;
-import code.cy.spring.api.router.Path;
+import code.cy.spring.api.router.RouteMapping;
 
 
 public interface IRouter<T> {
-    Map<Path, Handler> routes();
+    RouteMapping routes(RouteMapping routeMapping);
 
     Object error404();
+    Object error500(Exception e);
 }

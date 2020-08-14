@@ -2,7 +2,10 @@
 If you are search to do a **api service fast with spring**, this is your repo.
 
 # Tags
-[Middleware](#middlewares) [HashId Connector](#hashid-connector)
+- [SPIRNG-API-SERVICE](#in-your-controller)
+    - [Middleware](#middlewares) 
+    - [HashId Connector](#hashid-connector)
+- [SPRING-API-ROUTER](#spring-api-router)
 
 # Requires
 - `java 11`
@@ -26,7 +29,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
     </dependecies
     ```
 
-- in your controller:
+- ### in your controller:
     ```java
     ...
     import code.cy.spring.api.service.ApiService;
@@ -239,6 +242,90 @@ If you are search to do a **api service fast with spring**, this is your repo.
         - `Model ApiService<Model, ID> service.getByHashId(String strId)` to get a Model instance.
         - `Map<String, Object> ApiService<Model, ID> service.resource(Model instance)` to send a hashed id to client.
 
+# SPRING-API-ROUTER
+Is a custom implementation using spring as boot. This implementation is good to separete the controllers to http routes logic.
+
+- Usage:
+    - In your routes:
+    ```java
+    ...    
+    import code.cy.spring.api.router.RouteMapping;
+    import code.cy.spring.api.router.interfaces.IRouter;
+    import code.cy.spring.api.service.Response;
+
+    @Repository
+    public class Routes implements IRouter<Routes> {
+        @Autowired
+        private UserController userController;
+
+        @Override
+        public RouteMapping routes(RouteMapping route) {
+
+            route.get("/helloWorld", (Request request)->{
+                return Response.status(200).body("hello world");
+            });
+
+            route.group("/users", null, (RouteMapping uruote) -> {
+                uruote.get("", userController::index);
+                
+                uruote.post("", userController::store);
+                
+                return uruote;
+            });
+
+            return route;
+        }
+
+        @Override
+        public Object error404() {
+            return FastMap.get("error", "not found.");
+        }
+
+        @Override
+        public Object error500(Exception e) {
+            System.out.println(e.message());
+            return FastMap.get("error", "internal error.");
+        }
+
+    }
+    ```
+    - in your `main` controller:
+    ```java
+    @RestController
+    @SpringBootApplication(scanBasePackages={"code.cy"})
+    public class RouterConfig {
+        
+        @Autowired
+        public Router<Routes> routes;
+
+        @RequestMapping("/**")
+        public ResponseEntity<?> handler(HttpServletRequest request, @RequestParam Map<String, String> params, @RequestBody String body){
+            return routes.handler(request, params, body);        
+        }   
+    }
+    ```
+    - in your controller:
+    ```java
+    import code.cy.spring.api.router.Request;
+    import code.cy.spring.api.service.ApiService;
+
+    @Repository
+    public class UserController {
+        @Autowired
+        private ApiService<User, Long> apiService;
+
+        public ResponseEntity<?> index(Request request ){
+            return apiService.list();
+        }
+
+        public ResponseEntity<?> store(Request request ){
+            //get param in json to class
+            Model model = request.getFromParam("model", Model.class);
+
+            return apiService.store(request.getFromBody(User.class));
+        }
+    }
+    ```
 
 
 
