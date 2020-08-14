@@ -24,7 +24,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
         <dependency>
             <groupId>code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.0.5</version>
+            <version>1.1.0</version>
         </dependency>
         ...
     </dependecies
