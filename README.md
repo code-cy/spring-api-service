@@ -364,7 +364,7 @@ Is a custom implementation using spring as boot. This implementation is good to 
         new IMiddleware[]{userMiddleware.setParam("user_id")},
         (RouteMapping urr)->{
             urr.get("/", userController::show);
-            urr.get("/", userController::show);
+            urr.put("/", userController::update);
             return urr;
         });
         ```
