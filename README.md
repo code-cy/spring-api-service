@@ -6,6 +6,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
     - [Middleware](#middlewares) 
     - [HashId Connector](#hashid-connector)
 - [SPRING-API-ROUTER](#spring-api-router)
+    - [Middleware](#router-middleware)
 
 # Requires
 - `java 11`
@@ -171,7 +172,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
     import code.cy.spring.api.service.interfaces.IMiddleware;
     
     @Repository
-    class MyMiddleware implements IMiddleware{
+    class ModelServiceMiddleware implements IMiddleware{
         @Autowired
         private ApiService<Model, ID> service;
         private Model model;
@@ -326,6 +327,59 @@ Is a custom implementation using spring as boot. This implementation is good to 
         }
     }
     ```
+    - #### Router-Middleware
+    ```java
+    ...
+    import code.cy.spring.api.router.interfaces.IMiddleware;
+
+    @Repository
+    public class UserMiddleware implements IMiddleware {
+
+        @Autowired
+        private ApiService<User, Long> userService;
+        private Optional<User> user;
+
+        public String user_param;
+
+        public UserMiddleware setParam(String param){
+            user_param = param;
+            return this;
+        }
+
+        @Override
+        public ResponseEntity<?> handler(Request request) {
+            String strId = request.pathParams.get(user_param);
+            if (strId != null) {
+                user = userService.getRepository().findById(Long.parseLong(strId));
+                if (user.isPresent()){
+                    request.internal.put(user_param, user.get());
+                    return null;
+                }                
+            }
+            return Response.status(404).body(FastMap.get("error", "User not found."));
+        }
+
+    }
+    ```
+    - Usage:
+        -  in your routes:
+        ```java
+        route.group("/{user_id}", 
+        new IMiddleware[]{userMiddleware.setParam("user_id")},
+        (RouteMapping urr)->{
+            urr.get("/", userController::show);
+            return urr;
+        });
+        ```
+        - We can use a `Map<String, IInternable> Request.internal` to send data from middleware to controlles:
+        ```java
+        ...
+        public ResponseEntity<?> show(Request request ){
+            User user = (User)request.internal.get("user_id");
+            return Response.status(200).body(apiService.resource(user));
+        }
+        ...
+        ```
 
 
 

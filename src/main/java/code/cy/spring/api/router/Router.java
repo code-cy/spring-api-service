@@ -38,6 +38,8 @@ public class Router<T> {
             String[] path_mapp_split = _path.path.split("\\/");
             String[] path_split = path.split("\\/");
             if (path_mapp_split.length <= path_split.length && (method.equals(_path.method) || _path.method.equals("group"))) {
+                System.out.println(path);
+                System.out.println(_path.path);
                 Boolean found = true;
                 ArrayList<String> params = new ArrayList<String>();
                 for (int i = 0; i < path_mapp_split.length; i++) {
@@ -77,15 +79,11 @@ public class Router<T> {
                 if (found) {
                     if (routes.get(_path) instanceof Group) {
                         Group handler = (Group) routes.get(_path);
-                        Map<Path, Handler> m_routes = handler.routes(RouteMapping.create()).getMap();
-                        String g_path = "";
-                        for (int i = path_mapp_split.length - 1; i < path_split.length; i++) {
-                            g_path += "/" + path_split[i];
-                        }
+                        Map<Path, Handler> m_routes = handler.routes(RouteMapping.create()).getMap();                    
                         for (Path m_path : m_routes.keySet()) {
                             m_path.path = _path.path + m_path.path;
                         }
-                        return this.findRoute(g_path, method, m_routes, request);
+                        return this.findRoute(path, method, m_routes, request);
                     }
                 }
 
