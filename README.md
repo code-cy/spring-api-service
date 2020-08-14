@@ -250,6 +250,7 @@ Is a custom implementation using spring as boot. This implementation is good to 
     - In your routes:
     ```java
     ...    
+    import code.cy.spring.api.router.Request;
     import code.cy.spring.api.router.RouteMapping;
     import code.cy.spring.api.router.interfaces.IRouter;
     import code.cy.spring.api.service.Response;
