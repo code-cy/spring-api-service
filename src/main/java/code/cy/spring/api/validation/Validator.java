@@ -46,7 +46,7 @@ public class Validator<T extends IModel<T, ID>, ID extends Serializable> {
                 Field dataf = data.getClass().getField(key);
                 boolean isNotUnique = dataf.get(data).equals(field.get(instance));                
                 if (isNotUnique) {                   
-                    if(!(instance.getId().equals(id))){                        
+                    if(!(instance.id().equals(id))){                        
                         noExist = false;
                         break;                        
                     }                                    

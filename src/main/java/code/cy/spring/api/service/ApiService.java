@@ -86,10 +86,7 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
             ResponseEntity<?> after = afterStore.doSomething(instance);
             if (after != null)
                 return after;
-        }
-        Map<String, Object> resource = resource(instance);
-        if (resource != null)
-            return Response.status(201).body(resource);
+        }        
         return Response.status(201).body(FastMap.get(model.singular(), instance));
     }
 
@@ -97,7 +94,7 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
         IRepository<T, ID> service = getRepository();
         Optional<T> found = service.findById(id);
         if (!found.isPresent())
-            return Response.status(404).body(FastMap.get("error", "Recurso no encontrado!"));
+            return this._resourceNotFoundResponse();
         T instance = found.get();
         IValidable valid = (IValidable) instance;
         if (instance != null) {
@@ -114,9 +111,6 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
                 return after;
         }
 
-        Map<String, Object> resource = resource(instance);
-        if (resource != null)
-            return Response.status(200).body(resource);
         return Response.status(200).body(FastMap.get(model.singular(), instance));
 
     }
@@ -125,16 +119,12 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
         IRepository<T, ID> service = getRepository();
         Iterable<T> all_iter = service.findAll();
         ArrayList<Object> result = new ArrayList<Object>();
-        for (T instance : all_iter) {
-            Map<String, Object> resource = null;
+        for (T instance : all_iter) {            
             if (findInstance != null) {
                 if (findInstance.find(instance)) 
-                    resource = instance.resource(instance);
-            } else resource = instance.resource(instance);
-            if (resource != null) {
-                hashId(instance, resource);
-                result.add(resource);
-            }
+                    result.add(instance);
+            } else result.add(instance);
+            
         }
         return Response.status(200).body(FastMap.get(model.plural(), result));
     }
@@ -144,10 +134,7 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
         Optional<T> found = service.findById(id);
         if (!found.isPresent())
             return _resourceNotFoundResponse();
-        T instance = found.get();
-        Map<String, Object> resource = resource(instance);
-        if (resource != null)
-            return Response.status(200).body(resource);
+        T instance = found.get();        
         return Response.status(200).body(FastMap.get(model.singular(), instance));
     }
 
@@ -167,7 +154,7 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
     }
 
     protected ResponseEntity<?> _resourceNotFoundResponse() {
-        return Response.status(404).body(FastMap.get("error", "Recurso no encontrado!"));
+        return Response.status(404).body(FastMap.get("error", "Resource not found."));
     }
 
     private ResponseEntity<?> _validation(T data, Map<String, Object> rules, ID id) {
@@ -176,21 +163,6 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
         } catch (Exception err) {
             return Response.status(500).body(FastMap.get("error", err.getMessage()));
         }
-    }
-
-    public Map<String, Object> resource(T instance) {
-        Map<String, Object> resource = instance.resource(instance);
-        if (resource != null) {
-            hashId(instance, resource);
-            return FastMap.get(model.singular(), resource);
-        }
-        return null;
-    }
-
-    private void hashId(T instance, Map<String, Object> resource) {
-        if (hashId != null) {
-            resource.put(model.getIdName(), hashId.encode(instance.getId()));
-        }
-    }
-
+    }   
+    
 }

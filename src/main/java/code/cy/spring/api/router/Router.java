@@ -37,9 +37,7 @@ public class Router<T> {
         for (Path _path : routes.keySet()) {            
             String[] path_mapp_split = _path.path.split("\\/");
             String[] path_split = path.split("\\/");
-            if (path_mapp_split.length <= path_split.length && (method.equals(_path.method) || _path.method.equals("group"))) {
-                System.out.println(path);
-                System.out.println(_path.path);
+            if (path_mapp_split.length <= path_split.length && (method.equals(_path.method) || _path.method.equals("group"))) {                
                 Boolean found = true;
                 ArrayList<String> params = new ArrayList<String>();
                 for (int i = 0; i < path_mapp_split.length; i++) {

@@ -24,7 +24,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
         <dependency>
             <groupId>code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
         </dependency>
         ...
     </dependecies
@@ -121,12 +121,12 @@ If you are search to do a **api service fast with spring**, this is your repo.
     class Model implements IModel<Model, ID>{
         ...        
         @Override
-        public ID getId() {
+        public ID id() {
             return id;
         }
 
         @Override
-        public String getIdName() {
+        public String idName() {
             return "id";
         }
 
@@ -137,13 +137,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
             prop2 = data.prop2;
             ...
         }
-
-        @Override
-        //Show the Model to client.
-        public Map<String, Object> resource(Model instace){
-            return FastMap.create("prop1", instace.prop1)
-            .put("prop2", instace.prop2).get();
-        }
+        
         ...
 
     }
@@ -377,7 +371,7 @@ Is a custom implementation using spring as boot. This implementation is good to 
         ...
         public ResponseEntity<?> show(Request request ){
             User user = (User)request.internal.get("user_id");
-            return Response.status(200).body(apiService.resource(user));
+            return Response.status(200).body(user);
         }
         ...
         ```
@@ -386,6 +380,11 @@ Is a custom implementation using spring as boot. This implementation is good to 
 
 
 ## Changes
+- ### `1.1.1`
+    - Decapritated: `IModel.resource(Model instance)`
+    - Decapritated: `ApiService.resource(Model instance)`
+- ### `1.1.0`
+    - `SPRING-API-ROUTER`
 - ### `1.0.7`
     - Interface: `IMiddleware`
     - Method: `ResponseEntity<?> ApiService.handler(IMiddlewares[] middlewares, ()->ResponseEntity<?>)`
@@ -394,9 +393,9 @@ Is a custom implementation using spring as boot. This implementation is good to 
     - Method: `Map<String, Object> ApiService<Model, ID> service.resource(Model instance)`
 
 - ### `1.0.5`
-- Interface: `IModel<Model, ID>`
-- Service: `ApiService<Model extends IModel<Model, ID>, ID>`
-- deleted: `IResource`
+    - Interface: `IModel<Model, ID>`
+    - Service: `ApiService<Model extends IModel<Model, ID>, ID>`
+    - deleted: `IResource`
 - ### `1.0.4`
 - `ApiService`:
     - `void findInList( (Model modelStored)->boolean )`: find modelStoreds in `list()` method.
@@ -404,16 +403,16 @@ Is a custom implementation using spring as boot. This implementation is good to 
     - `void doAfterUpdate( (Model modelStored)->ResponseEntity<?>|null )`: do something after update. if return a response it will be send.
 
 - ### `1.0.3`
-- **General Package Path:** `code.cy.spring.api.service` to `code.cy`.
--  **imports:** 
-    ```java
-    import code.cy.spring.api.service.ApiService;
-    import code.cy.spring.api.service.interfaces.*;
-    import code.cy.spring.api.validation.Rule;
-    import code.cy.spring.api.validation.Validator;   
-    import code.cy.FastMap;     
-    ```
-- `FastListStr`: *decapritated* 
-- `FastMap`:
-    - `public static FastMap makeRule(String prop, String rule)`
-    - `public FastMap addRule(String prop, String rule)`
+    - **General Package Path:** `code.cy.spring.api.service` to `code.cy`.
+    -  **imports:** 
+        ```java
+        import code.cy.spring.api.service.ApiService;
+        import code.cy.spring.api.service.interfaces.*;
+        import code.cy.spring.api.validation.Rule;
+        import code.cy.spring.api.validation.Validator;   
+        import code.cy.FastMap;     
+        ```
+    - `FastListStr`: *decapritated* 
+    - `FastMap`:
+        - `public static FastMap makeRule(String prop, String rule)`
+        - `public FastMap addRule(String prop, String rule)`
