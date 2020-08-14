@@ -24,7 +24,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
         <dependency>
             <groupId>code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
         </dependency>
         ...
     </dependecies
@@ -364,15 +364,31 @@ Is a custom implementation using spring as boot. This implementation is good to 
         new IMiddleware[]{userMiddleware.setParam("user_id")},
         (RouteMapping urr)->{
             urr.get("/", userController::show);
+            urr.get("/", userController::show);
             return urr;
         });
         ```
         - We can use a `Map<String, IInternable> Request.internal` to send data from middleware to controlles:
-        ```java
+        ```java        
         ...
-        public ResponseEntity<?> show(Request request ){
-            User user = (User)request.internal.get("user_id");
-            return Response.status(200).body(user);
+        @Controller
+        class UserController{
+            @Autowired
+            private ApiService<User, Long> userService;
+
+            ...
+
+            public ResponseEntity<?> show(Request request ){
+                User user = (User)request.internal.get("user_id");
+                return Response.status(200).body(user);
+            }
+
+            public ResponseEntity<?> update(Request request){
+                User user = (User)request.internal.get("user_id");
+                User data = request.getFromBody(User.class);
+                return userService.update(user, data);
+            }
+            ...
         }
         ...
         ```
@@ -381,6 +397,8 @@ Is a custom implementation using spring as boot. This implementation is good to 
 
 
 ## Changes
+- ### `1.1.2`
+    - Method: `ApiService.update(Model stored, Model data)`
 - ### `1.1.1`
     - Decapritated: `IModel.resource(Model instance)`
     - Decapritated: `ApiService.resource(Model instance)`

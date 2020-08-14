@@ -96,10 +96,16 @@ public class ApiService<T extends IModel<T, ID>, ID extends Serializable> {
         if (!found.isPresent())
             return this._resourceNotFoundResponse();
         T instance = found.get();
+        return update(instance, data);
+    }
+
+    public ResponseEntity<?> update(T stored, T data) {
+        IRepository<T, ID> service = getRepository();
+        T instance = stored;
         IValidable valid = (IValidable) instance;
         if (instance != null) {
             ResponseEntity<?> invalid;
-            invalid = _validation(instance, valid.updateRules(), id);
+            invalid = _validation(instance, valid.updateRules(),instance.id());
             if (invalid != null)
                 return invalid;
         }
