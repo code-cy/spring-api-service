@@ -20,9 +20,9 @@ If you are search to do a **api service fast with spring**, this is your repo.
     <dependecies>
         ...
         <dependency>
-            <groupId>org.code-cy</groupId>
+            <groupId>com.github.code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         ...
     </dependecies
