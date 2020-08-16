@@ -7,6 +7,8 @@ If you are search to do a **api service fast with spring**, this is your repo.
     - [HashId Connector](#hashid-connector)
 - [SPRING-API-ROUTER](#spring-api-router)
     - [Middleware](#router-middleware)
+# Autors
+ - [Camilo Barbosa](https://github.com/calimpio)
 
 # Requires
 - `java 11`
