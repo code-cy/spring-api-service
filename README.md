@@ -20,12 +20,18 @@ If you are search to do a **api service fast with spring**, this is your repo.
     <dependecies>
         ...
         <dependency>
-            <groupId>com.github.code-cy</groupId>
+            <groupId>org.code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.1.6</version>
+            <version>1.1.7</version>
         </dependency>
         ...
-    </dependecies
+    </dependecies    
+    <repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
     ```
 
 - ### in your controller:
