@@ -1,4 +1,5 @@
 package code.cy.spring.api.router;
+
 /**
  * @author Camilo Barbosa
  */
@@ -25,7 +26,9 @@ public class Router<T> {
     public ResponseEntity<?> handler(HttpServletRequest request, Map<String, String> params, String body) {
         String path = request.getRequestURI();
         String method = request.getMethod();
-        Map<Path, Handler> routes = router.routes(RouteMapping.create()).getMap();
+        RouteMapping rMapping = RouteMapping.create();
+        router.routes(rMapping);
+        Map<Path, Handler> routes = rMapping.getMap();
         Map<String, String> pathParams = new HashMap<String, String>();
         try {
             return findRoute(path, method, routes, new Request(pathParams, request, params, body));
@@ -36,10 +39,11 @@ public class Router<T> {
 
     private ResponseEntity<?> findRoute(String path, String method, Map<Path, Handler> routes, Request request)
             throws Exception {
-        for (Path _path : routes.keySet()) {            
+        for (Path _path : routes.keySet()) {
             String[] path_mapp_split = _path.path.split("\\/");
             String[] path_split = path.split("\\/");
-            if (path_mapp_split.length <= path_split.length && (method.equals(_path.method) || _path.method.equals("group"))) {                
+            if (path_mapp_split.length <= path_split.length
+                    && (method.equals(_path.method) || _path.method.equals("group"))) {
                 Boolean found = true;
                 ArrayList<String> params = new ArrayList<String>();
                 for (int i = 0; i < path_mapp_split.length; i++) {
@@ -71,15 +75,17 @@ public class Router<T> {
 
                 if (found && path_mapp_split.length == path_split.length) {
                     if (routes.get(_path) instanceof Route) {
-                        System.out.println("["+method+"] "+_path.path);
+                        System.out.println("[" + method + "] " + _path.path);
                         Route handler = (Route) routes.get(_path);
                         return handler.handler(request);
                     }
                 }
                 if (found) {
                     if (routes.get(_path) instanceof Group) {
-                        Group handler = (Group) routes.get(_path);
-                        Map<Path, Handler> m_routes = handler.routes(RouteMapping.create()).getMap();                    
+                        Group handler = (Group) routes.get(_path);                        
+                        RouteMapping rMapping = RouteMapping.create();
+                        handler.routes(rMapping);
+                        Map<Path, Handler> m_routes = rMapping.getMap();
                         for (Path m_path : m_routes.keySet()) {
                             m_path.path = _path.path + m_path.path;
                         }
