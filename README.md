@@ -268,12 +268,9 @@ Is a custom implementation using spring as boot. This implementation is good to 
             route.group("/users", null, (RouteMapping uruote) -> {
                 uruote.get("", userController::index);
                 
-                uruote.post("", userController::store);
+                uruote.post("", userController::store);             
                 
-                return uruote;
-            });
-
-            return route;
+            });            
         }
 
         @Override
@@ -368,8 +365,7 @@ Is a custom implementation using spring as boot. This implementation is good to 
         new IMiddleware[]{userMiddleware.setParam("user_id")},
         (RouteMapping urr)->{
             urr.get("/", userController::show);
-            urr.put("/", userController::update);
-            return urr;
+            urr.put("/", userController::update);            
         });
         ```
         - We can use a `Map<String, IInternable> Request.internal` to send data from middleware to controlles:
