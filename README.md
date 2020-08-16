@@ -25,7 +25,7 @@ If you are search to do a **api service fast with spring**, this is your repo.
             <version>1.1.8</version>
         </dependency>
         ...
-    </dependecies    
+    </dependecies>    
     <repositories>
 		<repository>
 			<id>jitpack.io</id>
