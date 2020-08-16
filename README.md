@@ -13,10 +13,6 @@ If you are search to do a **api service fast with spring**, this is your repo.
 # Requires
 - `java 11`
 
-## Install
- - `git clonde ...`
- - `mvn install`
-
 ## Usage
 
 - In your maven package: `pom.xml`
@@ -24,9 +20,9 @@ If you are search to do a **api service fast with spring**, this is your repo.
     <dependecies>
         ...
         <dependency>
-            <groupId>code-cy</groupId>
+            <groupId>org.code-cy</groupId>
             <artifactId>spring-api-service</artifactId>
-            <version>1.1.2</version>
+            <version>1.1.4</version>
         </dependency>
         ...
     </dependecies
