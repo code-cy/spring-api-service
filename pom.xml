@@ -83,7 +83,7 @@
                 <version>3.1</version>
                 <executions>
                     <execution>
-                        <id>default-compiler</id>
+                        <id>default-compile</id>
                     </execution>
                 </executions>
             </plugin>
