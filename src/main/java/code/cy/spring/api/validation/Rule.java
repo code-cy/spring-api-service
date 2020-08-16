@@ -1,4 +1,7 @@
 package code.cy.spring.api.validation;
+/**
+ * @author Camilo Barbosa
+ */
 
 public class Rule{
     public static final String REQUIRED = "required";
